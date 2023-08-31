@@ -1,0 +1,26 @@
+PODS:
+  - Bolts/Tasks (1.9.1)
+  - CTPanoramaView (1.5)
+  - Parse (1.19.4):
+    - Parse/Core (= 1.19.4)
+  - Parse/Core (1.19.4):
+    - Bolts/Tasks (= 1.9.1)
+
+DEPENDENCIES:
+  - CTPanoramaView (~> 1.5)
+  - Parse
+
+SPEC REPOS:
+  trunk:
+    - Bolts
+    - CTPanoramaView
+    - Parse
+
+SPEC CHECKSUMS:
+  Bolts: 8c1e8aab2f603387b8b9924f57d1d64f43d3ffdc
+  CTPanoramaView: f7af526aaffedb2d52e87112ee0d57bb115eb6a2
+  Parse: 6d572042e2c171414c677acabcd9bab7bbf51264
+
+PODFILE CHECKSUM: bfb33d910af1a35145051010dfb01f20bf0887f9
+
+COCOAPODS: 1.12.1
