@@ -10,7 +10,7 @@ import Parse
 
 class Profile {
     var currentUser = PFUser.current()
-    var username = "d"
+    var username = ""
     var nickname = "Memory+用户"
     var avatar = UIImage(named: "default_avatar")
     var signature = "属于我的独特记忆……"
@@ -20,6 +20,17 @@ class Profile {
     var likeList: [String] = []
     var followCount = 0
     var followList: [String] = []
+    
+    init(username: String, nickname: String, avatar: UIImage, signature: String) {
+        self.username = username
+        self.nickname = nickname
+        self.avatar = avatar
+        self.signature = signature
+    }
+    
+    init() {
+        
+    }
 }
 
 var profile = Profile()
@@ -73,6 +84,8 @@ func loadProfileData() {
         loadMemoryData()
         loadPostData()
         loadFollowData()
+        loadFavoriteData()
+        loadLikeData()
     }
 }
 
@@ -107,6 +120,34 @@ func loadFollowData() {
                                 followList.append(info)
                             }
                         }
+                    }
+                }
+            }
+        }
+    }
+}
+
+var user = Profile()
+
+func loadUserData(username: String) {
+    user = Profile()
+    let query = PFQuery(className:"UserInfo")
+    query.whereKey("username", containedIn: profile.followList)
+    query.getFirstObjectInBackground { (object, error) in
+        if let error = error {
+            // Log details of the failure
+            print(error.localizedDescription)
+        } else if let object = object {
+            user.username = username
+            user.nickname = object["nickname"] as! String
+            user.signature = object["signature"] as! String
+            
+            if let userImageFile = object["avatar"] as? PFFileObject {
+                userImageFile.getDataInBackground { (imageData: Data?, error: Error?) in
+                    if let error = error {
+                        print(error.localizedDescription)
+                    } else if let imageData = imageData {
+                        user.avatar = UIImage(data:imageData)!
                     }
                 }
             }

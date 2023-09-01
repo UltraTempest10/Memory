@@ -12,53 +12,78 @@ struct ExperienceView: View {
     @State var selecedMusicIndex: Int?
     @State private var isPlaying = false
     @State var title: String = ""
+    @State private var showTip = true
     
     var body: some View {
-        PanoramaView()
-            .ignoresSafeArea()
-            .navigationBarBackButtonHidden(true)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    NavigationLink {
-                        MainView()
-                    } label: {
-                        Image(systemName: "chevron.backward")
-                            .foregroundColor(.white)
-                            .frame(width: 10, height: 20)
-                    }
-                }
-                ToolbarItem(placement: .principal) {
-                    Text(title)
-                        .font(Font
-                            .custom("PingFang SC", size: 25)
-                            .weight(.medium)
+        ZStack {
+            PanoramaView()
+                .ignoresSafeArea()
+            if showTip {
+                VStack {
+                    Image("360tip")
+                    Text("转动手机或划动屏幕开始体验")
+                        .font(
+                            Font.custom("PingFang SC", size: 22)
+                                .weight(.medium)
                         )
                         .foregroundColor(.white)
                 }
-                if selecedMusicIndex != nil {
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        Button {
-                            if isPlaying {
-                                isPlaying = false
-                                pauseMusic()
-                            } else {
-                                isPlaying = true
-                                playMusic(from: musicArray[selecedMusicIndex!].url)
-                            }
-                        } label: {
-                            Image("music")
-                                .resizable()
-                                .frame(width: 30, height: 30)
+                .padding(.top, 100.0)
+            }
+        }
+        .navigationBarBackButtonHidden(true)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                NavigationLink {
+                    MainView()
+                } label: {
+                    Image(systemName: "chevron.backward")
+                        .foregroundColor(.white)
+                        .frame(width: 10, height: 20)
+                }
+            }
+            ToolbarItem(placement: .principal) {
+                Text(title)
+                    .font(Font
+                        .custom("PingFang SC", size: 25)
+                        .weight(.medium)
+                    )
+                    .foregroundColor(.white)
+            }
+            if selecedMusicIndex != nil {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button {
+                        if isPlaying {
+                            isPlaying = false
+                            pauseMusic()
+                        } else {
+                            isPlaying = true
+                            playMusic(from: musicArray[selecedMusicIndex!].url)
                         }
+                    } label: {
+                        Image("music")
+                            .resizable()
+                            .frame(width: 30, height: 30)
                     }
                 }
             }
-            .onDisappear {
-                recommendedIndex = -1
-                if selecedMusicIndex != nil {
-                    musicArray[selecedMusicIndex!].isSelected = false
-                }
+        }
+        .onAppear {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                showTip = false
             }
+        }
+        .onDisappear {
+            recommendedIndex = -1
+            
+            keyObjectIndex = 0
+            normalImage = UIImage()
+            panoramaImage = UIImage()
+            
+            if selecedMusicIndex != nil {
+                musicArray[selecedMusicIndex!].isSelected = false
+            }
+        }
     }
 }
 

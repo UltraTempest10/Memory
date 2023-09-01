@@ -6,13 +6,15 @@
 //
 
 import SwiftUI
+//import StreamChat
+//import StreamChatSwiftUI
+
 
 struct ContentView: View {
-    @StateObject private var modelData = ModelData()
+//    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     
     var body: some View {
         MainView()
-            .environmentObject(modelData)
     }
 }
 

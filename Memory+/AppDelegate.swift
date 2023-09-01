@@ -8,12 +8,12 @@
 import UIKit
 import SwiftUI
 import Parse
-import StreamChat
-import StreamChatSwiftUI
+//import StreamChat
+//import StreamChatSwiftUI
 
-extension ChatClient {
-    static var shared: ChatClient!
-}
+//extension ChatClient {
+//    static var shared: ChatClient!
+//}
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -22,19 +22,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-    // This is the `StreamChat` reference we need to add
-    var streamChat: StreamChat?
-
-    // This is the `chatClient`, with config we need to add
-    var chatClient: ChatClient = {
-        //For the tutorial we use a hard coded api key and application group identifier
-        var config = ChatClientConfig(apiKey: .init("8br4watad788"))
-        config.applicationGroupIdentifier = "group.io.getstream.iOS.ChatDemoAppSwiftUI"
-
-        // The resulting config is passed into a new `ChatClient` instance.
-        let client = ChatClient(config: config)
-            return client
-    }()
+//    // This is the `StreamChat` reference we need to add
+//    var streamChat: StreamChat?
+//
+//    // This is the `chatClient`, with config we need to add
+//    var chatClient: ChatClient = {
+//        //For the tutorial we use a hard coded api key and application group identifier
+//        var config = ChatClientConfig(apiKey: .init("rm6za35v3vn8"))
+//        config.applicationGroupIdentifier = "group.io.getstream.iOS.ChatDemoAppSwiftUI"
+//
+//        // The resulting config is passed into a new `ChatClient` instance.
+//        let client = ChatClient(config: config)
+//        return client
+//    }()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         let parseConfig = ParseClientConfiguration {
@@ -44,11 +44,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         Parse.initialize(with: parseConfig)
         
+//        streamChat = StreamChat(chatClient: chatClient)
+//
+//        // Calling the `connectUser` functions
+//        connectUser()
+        
         //Load data from database.
         loadProfileData()
         loadMusicData()
         
-
         // Create the SwiftUI view that provides the window contents.
         let contentView = ContentView()
 
@@ -59,6 +63,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window.makeKeyAndVisible()
         return true
     }
+    
+//    // The `connectUser` function we need to add.
+//    private func connectUser() {
+//        // This is a hardcoded token valid on Stream's tutorial environment.
+//        let token = try! Token(rawValue: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiWFRQIn0.k89QfCw2uBVC6FEwvxuuDM4YGEYNrcpAp9DdVr5utPU")
+//
+//        // Call `connectUser` on our SDK to get started.
+//        chatClient.connectUser(
+//            userInfo: .init(id: "XTP",
+//                            name: "cheng",
+//                            imageURL: URL(string: "https://vignette.wikia.nocookie.net/starwars/images/2/20/LukeTLJ.jpg")!),
+//            token: token
+//        ) { error in
+//            if let error = error {
+//                // Some very basic error handling only logging the error.
+//                log.error("connecting the user failed \(error)")
+//                return
+//            }
+//        }
+//    }
 
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

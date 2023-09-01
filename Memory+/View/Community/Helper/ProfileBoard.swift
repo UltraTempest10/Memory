@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ProfileBoard: View {
     @EnvironmentObject var modelData: ModelData
-    var isLoggedIn = UserDefaults.standard.integer(forKey: "isLoggedIn")
+    @State var isLoggedIn = UserDefaults.standard.integer(forKey: "isLoggedIn")
     @State var info = profile
     @State var edited = false
     
@@ -66,75 +66,93 @@ struct ProfileBoard: View {
                     }
                 }
                 HStack {
-                    VStack {
-                        if info.favoriteCount >= 10000 {
-                            Text(String(format: "%.1f", Double(info.favoriteCount) / 10000.0) + "万")
+                    NavigationLink {
+                        FavoriteView(loginState: $isLoggedIn)
+                    } label: {
+                        VStack {
+                            if info.favoriteCount >= 10000 {
+                                Text(String(format: "%.1f", Double(info.favoriteCount) / 10000.0) + "万")
+                                    .font(
+                                        Font.custom("PingFang SC", size: 18)
+                                            .weight(.bold)
+                                    )
+                                    .foregroundColor(.black)
+                            }
+                            else {
+                                Text("\(info.favoriteCount)")
+                                    .font(
+                                        Font.custom("PingFang SC", size: 18)
+                                            .weight(.bold)
+                                    )
+                                    .foregroundColor(.black)
+                            }
+                            Text("收藏")
                                 .font(
-                                    Font.custom("PingFang SC", size: 18)
-                                        .weight(.bold)
+                                    Font.custom("PingFang SC", size: 14)
+                                        .weight(.medium)
                                 )
+                                .foregroundColor(Constants.gray)
                         }
-                        else {
-                            Text("\(info.favoriteCount)")
-                                .font(
-                                    Font.custom("PingFang SC", size: 18)
-                                        .weight(.bold)
-                                )
-                        }
-                        Text("收藏")
-                            .font(
-                                Font.custom("PingFang SC", size: 14)
-                                    .weight(.medium)
-                            )
-                            .foregroundColor(Constants.gray)
+                        .frame(maxWidth: .infinity)
                     }
-                    .frame(maxWidth: .infinity)
-                    VStack {
-                        if info.likeCount >= 10000 {
-                            Text(String(format: "%.1f", Double(info.likeCount) / 10000.0) + "万")
+                    NavigationLink {
+                        LikeView(loginState: $isLoggedIn)
+                    } label: {
+                        VStack {
+                            if info.likeCount >= 10000 {
+                                Text(String(format: "%.1f", Double(info.likeCount) / 10000.0) + "万")
+                                    .font(
+                                        Font.custom("PingFang SC", size: 18)
+                                            .weight(.bold)
+                                    )
+                                    .foregroundColor(.black)
+                            }
+                            else {
+                                Text("\(info.likeCount)")
+                                    .font(
+                                        Font.custom("PingFang SC", size: 18)
+                                            .weight(.bold)
+                                    )
+                                    .foregroundColor(.black)
+                            }
+                            Text("点赞")
                                 .font(
-                                    Font.custom("PingFang SC", size: 18)
-                                        .weight(.bold)
+                                    Font.custom("PingFang SC", size: 14)
+                                        .weight(.medium)
                                 )
+                                .foregroundColor(Constants.gray)
                         }
-                        else {
-                            Text("\(info.likeCount)")
-                                .font(
-                                    Font.custom("PingFang SC", size: 18)
-                                        .weight(.bold)
-                                )
-                        }
-                        Text("点赞")
-                            .font(
-                                Font.custom("PingFang SC", size: 14)
-                                    .weight(.medium)
-                            )
-                            .foregroundColor(Constants.gray)
+                        .frame(maxWidth: .infinity)
                     }
-                    .frame(maxWidth: .infinity)
-                    VStack {
-                        if info.followCount >= 10000 {
-                            Text(String(format: "%.1f", Double(info.followCount) / 10000.0) + "万")
+                    NavigationLink {
+                        FollowView()
+                    } label: {
+                        VStack {
+                            if info.followCount >= 10000 {
+                                Text(String(format: "%.1f", Double(info.followCount) / 10000.0) + "万")
+                                    .font(
+                                        Font.custom("PingFang SC", size: 18)
+                                            .weight(.bold)
+                                    )
+                                    .foregroundColor(.black)
+                            }
+                            else {
+                                Text("\(info.followCount)")
+                                    .font(
+                                        Font.custom("PingFang SC", size: 18)
+                                            .weight(.bold)
+                                    )
+                                    .foregroundColor(.black)
+                            }
+                            Text("关注")
                                 .font(
-                                    Font.custom("PingFang SC", size: 18)
-                                        .weight(.bold)
+                                    Font.custom("PingFang SC", size: 14)
+                                        .weight(.medium)
                                 )
+                                .foregroundColor(Constants.gray)
                         }
-                        else {
-                            Text("\(info.followCount)")
-                                .font(
-                                    Font.custom("PingFang SC", size: 18)
-                                        .weight(.bold)
-                                )
-                        }
-                        Text("关注")
-                            .font(
-                                Font.custom("PingFang SC", size: 14)
-                                    .weight(.medium)
-                            )
-                            .foregroundColor(Constants.gray)
+                        .frame(maxWidth: .infinity)
                     }
-                    .frame(maxWidth: .infinity)
                 }
             }
             .padding(.horizontal)

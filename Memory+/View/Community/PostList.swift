@@ -55,12 +55,14 @@ struct PostList: View {
                 .padding(.bottom)
             }
         }
-//        .onAppear {
-//            loadPostData()
-//            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-//                posts = postArray
-//            }
-//        }
+        .onAppear {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                posts = postArray
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                posts = postArray
+            }
+        }
     }
 }
 

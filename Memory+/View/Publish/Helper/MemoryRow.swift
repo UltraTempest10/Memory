@@ -9,6 +9,7 @@ import SwiftUI
 
 struct MemoryRow: View {
     var memory: Post
+    var small: Bool = false
     let calendar = Calendar.current
     let weekdays = ["", "星期天", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"]
     
@@ -22,7 +23,7 @@ struct MemoryRow: View {
                                 .weight(.medium)
                         )
                         .foregroundColor(Constants.accentColor)
-                        .frame(width: 27, alignment: .topLeading)
+                        .frame(width: 27)
                     Text(weekdays[calendar.component(.weekday, from: memory.timestamp)])
                         .font(
                             Font.custom("PingFang SC", size: 10)
@@ -71,7 +72,7 @@ struct MemoryRow: View {
                 }
                 .padding(.horizontal, 6.0)
             }
-            .frame(width: UIScreen.main.bounds.width * 0.685, height: 88)
+            .frame(width: UIScreen.main.bounds.width * (small ? 0.615 : 0.685), height: 88)
         }
     }
 }

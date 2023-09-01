@@ -15,6 +15,9 @@ struct PostDetail: View {
     @State private var showLoginAlert = false
     @State private var showSelfAlert = false
     
+    @State private var showFullScreen = false
+    @State private var scale: CGFloat = 1.0
+    
     @State var post: Post
     
     var body: some View {
@@ -25,6 +28,9 @@ struct PostDetail: View {
                     .scaledToFill()
                     .frame(height: UIScreen.main.bounds.height * 0.617)
                     .clipped()
+                    .onTapGesture {
+                        showFullScreen = true
+                    }
                 Spacer()
             }
             VStack {
@@ -56,23 +62,29 @@ struct PostDetail: View {
                         .cornerRadius(14)
                     VStack(spacing:20) {
                         HStack {
-                            Rectangle()
-                                .foregroundColor(.clear)
-                                .frame(width: 58, height: 58)
-                                .background(
-                                    Image(uiImage: post.avatar)
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fill)
+                            NavigationLink {
+                                ProfileView(user: Profile(username: post.creatorUsername, nickname: post.creator, avatar: post.avatar, signature: post.signature))
+                            } label: {
+                                HStack {
+                                    Rectangle()
+                                        .foregroundColor(.clear)
                                         .frame(width: 58, height: 58)
-                                        .clipped()
-                                )
-                                .cornerRadius(58)
-                            Text(post.creator)
-                                .font(
-                                    Font.custom("PingFang SC", size: 20)
-                                        .weight(.medium)
-                                )
-                                .foregroundColor(.black)
+                                        .background(
+                                            Image(uiImage: post.avatar)
+                                                .resizable()
+                                                .aspectRatio(contentMode: .fill)
+                                                .frame(width: 58, height: 58)
+                                                .clipped()
+                                        )
+                                        .cornerRadius(58)
+                                    Text(post.creator)
+                                        .font(
+                                            Font.custom("PingFang SC", size: 20)
+                                                .weight(.medium)
+                                        )
+                                        .foregroundColor(.black)
+                                }
+                            }
                             Spacer()
                             if loginState == 1 {
                                 if post.creatorUsername != profile.username {
@@ -194,6 +206,27 @@ struct PostDetail: View {
                 .frame(height: UIScreen.main.bounds.height * 0.397)
             }
             .padding(.top, UIScreen.main.bounds.height * 0.164)
+            .frame(width: UIScreen.main.bounds.width)
+            if showFullScreen {
+                ZStack {
+                    Rectangle()
+                        .foregroundColor(.black.opacity(0.5))
+                    Image(uiImage: post.picture)
+                        .resizable()
+                        .scaledToFit()
+                        .scaleEffect(scale)
+                        .gesture(
+                            MagnificationGesture()
+                                .onChanged { value in
+                                    scale = value
+                                }
+                        )
+                }
+                .onTapGesture {
+                    showFullScreen = false
+                    scale = 1.0
+                }
+            }
         }
         .ignoresSafeArea()
         .navigationBarBackButtonHidden(true)

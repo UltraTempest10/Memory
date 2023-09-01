@@ -40,7 +40,7 @@ struct PublishView: View {
                                 }
                                 .alert(isPresented: $showDeleteAlert) {
                                     Alert(
-                                        title: Text("删除记忆记录"),
+                                        title: Text("删除回忆记录"),
                                         message: Text("即将删除“" + posts[index + 4 * currentPage].title + "”，是否继续删除？"),
                                         primaryButton: .destructive(Text("删除"), action: {
                                             delete(id: posts[index + 4 * currentPage].id)
@@ -144,7 +144,8 @@ struct PublishView: View {
             }
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                    loadMemoryData()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
                         posts = memories.posts
                         postCount = memories.posts.count
                     }
@@ -155,12 +156,12 @@ struct PublishView: View {
                 }
             }
         }
-//        .onAppear {
-//            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-//                posts = memories.posts
-//                postCount = memories.posts.count
-//            }
-//        }
+        .onAppear {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                posts = memories.posts
+                postCount = memories.posts.count
+            }
+        }
     }
     
     func delete(id: String) {

@@ -357,30 +357,34 @@ struct CreateView: View {
     }
 
     func stopRecording() {
-        audioRecorder.stop()
         showVoiceBoard = false
-        isRecording = false
-        timer?.invalidate()
-        
-        audioEngine.stop()
-        request.endAudio()
-        
-        audioTexts.append(recognizedText)
-        recognizedText = ""
+        if isRecording {
+            audioRecorder.stop()
+            isRecording = false
+            timer?.invalidate()
+            
+            audioEngine.stop()
+            request.endAudio()
+            
+            audioTexts.append(recognizedText)
+            recognizedText = ""
+        }
     }
     
     func cancelRecording() {
-        audioRecorder.stop()
         showVoiceBoard = false
-        isRecording = false
-        timer?.invalidate()
-        
-        audioEngine.stop()
-        request.endAudio()
-        
-        recognizedText = ""
-        audioURLs.removeLast()
-        currentRecording -= 1
+        if isRecording {
+            audioRecorder.stop()
+            isRecording = false
+            timer?.invalidate()
+            
+            audioEngine.stop()
+            request.endAudio()
+            
+            recognizedText = ""
+            audioURLs.removeLast()
+            currentRecording -= 1
+        }
     }
 
     func getDocumentsDirectory() -> URL {
@@ -436,6 +440,7 @@ struct CreateView: View {
             // There was a problem, check error.description
               print(error?.localizedDescription.description as Any)
               uploadStatus = 1
+              showVoiceBoard = false
           }
         }
     }

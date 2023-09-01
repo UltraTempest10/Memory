@@ -41,6 +41,7 @@ struct CommunityView: View {
                     UserDefaults.standard.set(0, forKey: "isLoggedIn")
                     loginState = 0
                     profile = Profile()
+                    memories.posts.removeAll()
                 } label: {
                     Image("logout")
                         .foregroundColor(.white)

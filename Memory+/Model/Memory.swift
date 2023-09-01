@@ -16,6 +16,7 @@ var memories = Memory()
 
 func loadMemoryData() {
     let query = PFQuery(className:"Post")
+    query.cachePolicy = .networkElseCache
     query.whereKey("creator", equalTo: profile.username)
     query.order(byDescending: "createdAt")
     query.findObjectsInBackground { (objects: [PFObject]?, error: Error?) in
@@ -65,6 +66,8 @@ func loadMemoryData() {
                                 memories.posts[index].picture = UIImage(data: imageData)!
                             }
                         }
+                    } else {
+                        memories.posts[index].picture = UIImage()
                     }
                 }
             }

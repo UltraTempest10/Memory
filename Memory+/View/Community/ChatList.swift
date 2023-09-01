@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ChatList: View {
     @Binding var loginState: Int
+    @State var users = followList
     
     var body: some View {
         VStack(spacing: 1) {
@@ -32,16 +33,16 @@ struct ChatList: View {
                 if loginState == 1 {
                     ScrollView(.horizontal) {
                         HStack{
-                            ForEach(followList.indices,  id: \.self) { index in
+                            ForEach(users.indices,  id: \.self) { index in
                                 NavigationLink {
-                                    ChatView(title: followList[index].nickname)
+                                    ChatView(title: users[index].nickname)
                                 } label: {
                                     VStack {
                                         Rectangle()
                                             .foregroundColor(.clear)
                                             .frame(width: 60, height: 60)
                                             .background(
-                                                Image(uiImage: followList[index].avatar ?? UIImage())
+                                                Image(uiImage: users[index].avatar ?? UIImage())
                                                     .resizable()
                                                     .aspectRatio(contentMode: .fill)
                                                     .frame(width: 60, height: 60)
@@ -49,7 +50,7 @@ struct ChatList: View {
                                             )
                                             .cornerRadius(60)
                                             .shadow(color: .black.opacity(0.25), radius: 1.5, x: 0, y: 2)
-                                        Text(followList[index].nickname)
+                                        Text(users[index].nickname)
                                             .font(
                                                 Font.custom("PingFang SC", size: 16)
                                                     .weight(.medium)
@@ -64,6 +65,14 @@ struct ChatList: View {
                         }
                     }
                 }
+            }
+        }
+        .onAppear {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                users = followList
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                users = followList
             }
         }
     }
