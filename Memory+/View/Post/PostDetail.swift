@@ -22,7 +22,7 @@ struct PostDetail: View {
             VStack {
                 Image(uiImage: post.picture)
                     .resizable()
-                    .scaledToFit()
+                    .scaledToFill()
                     .frame(height: UIScreen.main.bounds.height * 0.617)
                     .clipped()
                 Spacer()

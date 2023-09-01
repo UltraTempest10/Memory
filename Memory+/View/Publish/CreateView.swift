@@ -280,6 +280,7 @@ struct CreateView: View {
             ImagePicker(sourceType: .camera) { image in
                 self.image = image
             }
+            .ignoresSafeArea()
         })
         .onChange(of: image) { newValue in
             didTakePhoto = true

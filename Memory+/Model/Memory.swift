@@ -26,7 +26,9 @@ func loadMemoryData() {
             for (index, object) in objects.enumerated() {
                 var post = Post()
                 if !memories.posts.contains(where: { $0.id == object.objectId }) {
-                    memories.posts.append(post)
+                    if memories.posts.count < objects.count {
+                        memories.posts.append(post)
+                    }
                     
                     memories.posts[index].id = object.objectId ?? ""
                     memories.posts[index].creator = profile.nickname

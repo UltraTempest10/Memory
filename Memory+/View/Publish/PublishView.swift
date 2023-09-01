@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Parse
 
 struct PublishView: View {
     var loginState: Int
@@ -13,6 +14,7 @@ struct PublishView: View {
     @State var postCount: Int = memories.posts.count
     @State private var showLoginAlert = false
     @State var posts = memories.posts
+    @State private var showDeleteAlert = false
     
     var body: some View {
         ZStack {
@@ -32,6 +34,19 @@ struct PublishView: View {
                                     PostDetail(loginState: loginState, post: posts[index + 4 * currentPage])
                                 } label: {
                                     MemoryRow(memory: posts[index + 4 * currentPage])
+                                }
+                                .onLongPressGesture {
+                                    showDeleteAlert = true
+                                }
+                                .alert(isPresented: $showDeleteAlert) {
+                                    Alert(
+                                        title: Text("删除记忆记录"),
+                                        message: Text("即将删除“" + posts[index + 4 * currentPage].title + "”，是否继续删除？"),
+                                        primaryButton: .destructive(Text("删除"), action: {
+                                            delete(id: posts[index + 4 * currentPage].id)
+                                        }),
+                                        secondaryButton: .cancel(Text("取消"))
+                                    )
                                 }
                             }
                         }
@@ -146,6 +161,26 @@ struct PublishView: View {
 //                postCount = memories.posts.count
 //            }
 //        }
+    }
+    
+    func delete(id: String) {
+        var query = PFQuery(className: "Post")
+        query.getObjectInBackground(withId: id) { (parseObject: PFObject?, error: Error?) in
+            if let error = error {
+                print(error.localizedDescription)
+            } else if parseObject != nil {
+                if let parseObject = parseObject {
+                    parseObject.deleteInBackground()
+                    }
+                if let index = posts.firstIndex(where: { $0.id == id }) {
+                    posts.remove(at: index)
+                    postCount -= 1
+                }
+                if let index = memories.posts.firstIndex(where: { $0.id == id }) {
+                    memories.posts.remove(at: index)
+                }
+            }
+        }
     }
 }
 
