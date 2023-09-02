@@ -54,7 +54,7 @@ struct FavoriteButton: View {
             }
         }
         
-        loadProfileData()
+        loadProfileData(favorite: true, like: false, follow: false)
     }
 }
 

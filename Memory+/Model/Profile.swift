@@ -35,7 +35,7 @@ class Profile {
 
 var profile = Profile()
 
-func loadProfileData() {
+func loadProfileData(favorite: Bool = true, like: Bool = true, follow: Bool = true) {
     let query = PFQuery(className:"UserInfo")
     query.cachePolicy = .networkElseCache
     query.whereKey("username", equalTo: PFUser.current()?.username as Any)
@@ -81,11 +81,19 @@ func loadProfileData() {
                 profile.followCount = profile.followList.count
             }
         }
-        loadMemoryData()
-        loadPostData()
-        loadFollowData()
-        loadFavoriteData()
-        loadLikeData()
+        if follow {
+            loadFollowData()
+        }
+        if favorite {
+            loadFavoriteData()
+        }
+        if like {
+            loadLikeData()
+        }
+        if favorite || like || follow {
+            loadMemoryData()
+            loadPostData()
+        }
     }
 }
 

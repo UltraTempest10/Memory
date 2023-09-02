@@ -182,7 +182,7 @@ struct ProfileEditView: View {
                     if (success) {
                         // The object has been saved.
                         print("Profile updated successfully.")
-                        loadProfileData()
+                        loadProfileData(favorite: false, like: false, follow: false)
                         edited.toggle()
                         presentationMode.wrappedValue.dismiss()
                     } else {

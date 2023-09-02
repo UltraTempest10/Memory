@@ -51,7 +51,7 @@ struct FollowButton: View {
             }
         }
         
-        loadProfileData()
+        loadProfileData(favorite: false, like:  false, follow:  true)
     }
 }
 

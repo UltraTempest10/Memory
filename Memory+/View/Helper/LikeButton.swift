@@ -53,7 +53,7 @@ struct LikeButton: View {
                 user.saveInBackground()
             }
         }
-        loadProfileData()
+        loadProfileData(favorite: false, like: true, follow: false)
     }
 }
 
